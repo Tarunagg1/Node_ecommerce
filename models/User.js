@@ -28,12 +28,10 @@ const userSchema = mongoose.Schema({
   }
 }, { timestamps: true })
 
-const userModel = mongoose.model('user', userSchema)
-module.exports = userModel
-
 /**
  * Validates unique email
  */
+
 // userSchema.path('email').validate(async (email) => {
 //   const emailCount = await mongoose.models.users.countDocuments({ email })
 //   return !emailCount
@@ -52,3 +50,6 @@ userSchema.methods.checkPassword = async function (password) {
   const result = await bcrypt.compare(password, this.password)
   return result
 }
+
+const userModel = mongoose.model('user', userSchema)
+module.exports = userModel
