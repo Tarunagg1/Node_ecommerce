@@ -69,7 +69,16 @@ router.get('/login', guestMiddleware, flasherMiddleware, (req, res) => {
  * Shows page for user login
  */
 router.post('/login', guestMiddleware, flasherMiddleware, (req, res, next) => {
-  // return res.render('login')
+  if (!req.body.email || !req.body.password) {
+    req.session.flashData = {
+      message: {
+        type: 'error',
+        body: 'Missing credentials'
+      }
+    }
+    return res.redirect('/login')
+  }
+
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       req.session.flashData = {
